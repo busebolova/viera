@@ -1,0 +1,28 @@
+{
+  "heroTitle": "Hakkımızda",
+  "heroSubtitle": "30 yıllık deneyimimizle geleceğin yaşam alanlarını inşa ediyoruz",
+  "videoId": "zR0KbaEXNlU",
+  "sections": [
+    {
+      "id": "biz-kimiz",
+      "title": "Benzersiz",
+      "subtitle": "BİZ KİMİZ",
+      "content": "GÜNEŞ YAPI olarak 1990'lı yıllardan beri hizmet verdiğimiz inşaat sektöründe, kalite ve güveni bir arada sunarak müşterilerimize en iyi yaşam alanlarını kazandırmayı amaçlıyoruz. Yılların verdiği tecrübe ile projelerimizi hayata geçirirken, her detayda mükemmeliyeti hedefliyor ve müşteri memnuniyetini ön planda tutuyoruz."
+    },
+    {
+      "id": "misyonumuz",
+      "title": "Misyonumuz",
+      "content": "Modern yaşam standartlarını en üst seviyeye taşıyarak, müşterilerimize konforlu, güvenli ve estetik açıdan kusursuz yaşam alanları sunmaktır. Sürdürülebilir ve çevre dostu inşaat anlayışıyla, gelecek nesillere yaşanabilir bir dünya bırakmayı hedefliyoruz."
+    },
+    {
+      "id": "vizyonumuz",
+      "title": "Vizyonumuz",
+      "content": "İnşaat sektöründe öncü bir marka olarak, Türkiye'nin önde gelen yapı firmalarından biri olmayı ve uluslararası projelerde de yer almayı hedefliyoruz. Yenilikçi yaklaşımlarımız ve kaliteli hizmet anlayışımızla sektörde fark yaratmaya devam edeceğiz."
+    }
+  ],
+  "callToAction": {
+    "title": "Sizinle çalışmayı dört gözle bekliyoruz",
+    "buttonText": "Projelerimiz hakkında daha fazla bilgi alın",
+    "buttonLink": "/aktif-projeler"
+  }
+}
