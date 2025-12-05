@@ -1,4 +1,38 @@
 {
-  "completed": [...],
-  "ongoing": [...]
+  "completed": [
+    {
+      "id": "validebag-27-28",
+      "title": "Validebağ 27-28 Blok",
+      "description": "Altunizade Mah. Kalfa Çeşme Sok.",
+      "details": "56 Daire",
+      "year": "2024",
+      "image": "/modern-apartment-building.png"
+    },
+    {
+      "id": "azade-86",
+      "title": "AZADE Evleri 86 Parsel",
+      "description": "Barbaros Mah. Mütevelliçeşme Cad.",
+      "details": "36 Daire",
+      "year": "2021",
+      "image": "/modern-apartment-exterior.png"
+    },
+    {
+      "id": "eski-anadolu-b",
+      "title": "Eski Anadolu Sitesi B Blok",
+      "description": "Eski Anadolu Sitesi B Blok Apartmanı",
+      "details": "",
+      "year": "2021",
+      "image": "/commercial-building-construction.png"
+    }
+  ],
+  "ongoing": [
+    {
+      "id": "validebag-29",
+      "title": "Validebağ 29 Kentsel Dönüşüm",
+      "description": "38 Daire - Kaba inşaat tamamlandı",
+      "details": "2. Etap 2025 3. Çeyrek tamamlanacak",
+      "year": "2025",
+      "image": "/modern-construction-site.png"
+    }
+  ]
 }
