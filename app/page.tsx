@@ -1,7 +1,14 @@
-export default function Home() {
+import HomeClient from "./HomeClient"
+
+export const metadata = {
+  title: "Ana Sayfa",
+  description: "Viera & Alkan Yapı ortaklığı",
+}
+
+export default function Page() {
   return (
-    <main style={{ padding: "40px", textAlign: "center" }}>
-      <h1>Site çalışıyor ✔️</h1>
+    <main>
+      <HomeClient />
     </main>
-  );
+  )
 }
