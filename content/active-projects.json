@@ -1,0 +1,22 @@
+{
+  "heroTitle": "Aktif Projeler",
+  "heroSubtitle": "Devam eden projelerimizi keşfedin",
+  "projects": [
+    {
+      "id": "sunrise-garden",
+      "title": "Sunrise Garden",
+      "description": "Modern mimari anlayışla tasarlanmış, doğayla iç içe lüks yaşam alanları",
+      "location": "Diyarbakır / Kayapınar",
+      "status": "Devam Ediyor",
+      "completionDate": "2025",
+      "image": "/projects/sunrise-garden.jpg",
+      "features": ["Kapalı Otopark", "Yüzme Havuzu", "Fitness Center", "Çocuk Oyun Alanı", "Güvenlik", "Peyzaj Bahçe"],
+      "details": {
+        "totalArea": "15.000 m²",
+        "units": "120 Daire",
+        "floors": "8 Kat",
+        "description": "Sunrise Garden projesi, modern yaşamın tüm konforunu doğayla buluşturan özel bir yaşam alanı olarak tasarlandı."
+      }
+    }
+  ]
+}
