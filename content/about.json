@@ -1,0 +1,12 @@
+{
+  "title": "Hakkımızda",
+  "description": "Kurucumuz Servet Alkan'ın temellerini attığı firmamız, 60 yılı aşkın deneyimi ve köklü geçmişinden aldığı güçle konut ve iş yeri üretimine aralıksız devam etmektedir. Çağın gereksinimlerine uygun, estetik ve fonksiyonel yapılar inşa etme anlayışımızla, her projede titizlikle çalışıyor, güven ve kaliteyi ön planda tutuyoruz. Firmamız D sınıfı Müteahhitlik Belgesine sahiptir.",
+  "heroImage": "/project-1.png",
+  "founder": {
+    "name": "Servet Alkan",
+    "role": "Kurucu",
+    "bio": "60 yılı aşkın tecrübesiyle inşaat sektörünün güvenilir isimlerinden biri."
+  },
+  "mission": "Kaliteli, güvenilir ve sürdürülebilir yapılar inşa ederek müşterilerimize değer katmak ve yaşam alanlarını güzelleştirmek.",
+  "vision": "Türkiye'nin en güvenilir ve tercih edilen inşaat firmalarından biri olmak, kentsel dönüşüm projelerinde öncü rol üstlenmek."
+}

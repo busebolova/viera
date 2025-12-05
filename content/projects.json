@@ -1,0 +1,135 @@
+{
+  "completed": [
+    {
+      "id": "validebag-27-28",
+      "title": "Validebağ 27-28 Blok Apartmanı",
+      "description": "Altunizade Mahallesi Kalfa Çeşme Sokak Kentsel Dönüşüm Yenileme Projesi",
+      "details": "56 Daire",
+      "year": "2024",
+      "status": "Eylül 2024 teslim edilmiştir",
+      "image": "/project-1.png"
+    },
+    {
+      "id": "azade-86",
+      "title": "AZADE Evleri 86 Parsel",
+      "description": "Barbaros Mahallesi Mütevelliçeşme Caddesi Kat Karşılığı Kentsel Dönüşüm Yenileme Projesi - Eski Anadolu Sitesi B Blok Apartmanı",
+      "details": "36 Daire",
+      "year": "2021",
+      "image": "/project-2.png"
+    },
+    {
+      "id": "azade-85",
+      "title": "AZADE Evleri 85 Parsel",
+      "description": "Barbaros Mah, Mütevelliçeşme Cad No: 13-3, Üsküdar - Eski Anadolu Sitesi A Blok Kat Karşılığı Kentsel Dönüşüm Yenileme Projesi",
+      "details": "36 Daire",
+      "year": "2019",
+      "image": "/project-3.png"
+    },
+    {
+      "id": "azade-84",
+      "title": "AZADE Evleri 84 Parsel - Doğuş Apartmanı",
+      "description": "Barbaros Mah, Mütevelliçeşme Cad No: 15, Üsküdar - Kentsel Dönüşüm Yenileme Projesi",
+      "details": "18 Daire, 2 Dükkan",
+      "year": "2018",
+      "image": "/project-1.png"
+    },
+    {
+      "id": "caglar-apartmani",
+      "title": "Fıstıkağacı Çağlar Apartmanı",
+      "description": "Selamiali Mah Güney Sok No 2 Üsküdar - Kentsel Dönüşüm Yenileme Projesi",
+      "details": "16 Daire, 3 Dükkan",
+      "year": "2017",
+      "image": "/project-2.png"
+    },
+    {
+      "id": "doga-apartmani",
+      "title": "Fıstıkağacı Doğa Apartmanı",
+      "description": "Selamiali Mah, Şehit Asteğmen Halil Öğel Sok No: 28 Üsküdar",
+      "details": "5 Daire",
+      "year": "2014",
+      "image": "/project-3.png"
+    }
+  ],
+  "ongoing": [
+    {
+      "id": "validebag-29",
+      "title": "Validebağ 29 Kentsel Dönüşüm",
+      "description": "Kaba inşaat bitmiştir. İnce işler devam etmektedir.",
+      "details": "38 Daire",
+      "year": "2025",
+      "status": "2. Etap projemiz 2025 3. Çeyrek tamamlanacaktır",
+      "image": "/project-1.png"
+    },
+    {
+      "id": "homeland-butik-otel",
+      "title": "Homeland Butik Otel Projesi",
+      "description": "Firmamıza ait Üsküdar merkezde yeni başladığımız butik otel konsept projemizdir.",
+      "details": "Butik Otel",
+      "year": "2024",
+      "status": "İnce işler devam etmektedir",
+      "image": "/project-2.png"
+    }
+  ],
+  "upcoming": [
+    {
+      "id": "dilman-konaklari",
+      "title": "Dilman Konakları",
+      "description": "Üsküdar Barbaros Mahallesi - 3 Blok",
+      "details": "44+14 toplam 58 Daire",
+      "year": "2025",
+      "status": "Hazırlık aşamasındadır",
+      "image": "/project-3.png"
+    },
+    {
+      "id": "ugur-huzur",
+      "title": "Uğur-Huzur Apartmanları",
+      "description": "Üsküdar Sultantepe Mahallesi Kentsel Dönüşüm Yenileme Projesi",
+      "details": "40 Daire",
+      "year": "2025",
+      "status": "Hazırlık aşamasındadır",
+      "image": "/project-1.png"
+    }
+  ],
+  "legacy": [
+    {
+      "title": "Doğa Apartmanı",
+      "location": "Üsküdar Selamiali Mah, Şehit Asteğmen Halil Öğel Sokak No: 28",
+      "details": "5 Daire"
+    },
+    {
+      "title": "Vakıf Apartmanı",
+      "location": "Üsküdar Selami Ali Mah Karabağ Sokak",
+      "details": "5 Daire"
+    },
+    {
+      "title": "Doğa Apartmanı",
+      "location": "Şişli Halide Edip Adıvar Caddesi 59 Parsel No:91",
+      "details": "4 Daire, 1 Dükkan"
+    },
+    {
+      "title": "Selamiali Projesi",
+      "location": "Selamiali Mahallesi 2619 Ada 270 Parsel",
+      "details": "3 Daire, 1 Dükkan"
+    },
+    {
+      "title": "Alkan Han İş Merkezi",
+      "location": "Üsküdar 425-14 Parsel",
+      "details": "İş Merkezi"
+    },
+    {
+      "title": "Altunizade İş Merkezi",
+      "location": "Altunizade",
+      "details": "İş Merkezi"
+    },
+    {
+      "title": "Keystone Okulları",
+      "location": "Çamlıca",
+      "details": "Eğitim Yapısı"
+    }
+  ],
+  "stats": {
+    "totalProjects": "100+",
+    "since": "1965",
+    "note": "1965'ten bu yana 100'den fazla bitirilmiş proje"
+  }
+}
