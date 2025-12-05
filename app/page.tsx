@@ -1,18 +1,10 @@
-import "./globals.css"
-import { Inter } from "next/font/google"
+"use client"
 
-const inter = Inter({ subsets: ["latin"] })
-
-export const metadata = {
-  title: "Viera",
-}
-
-export default function RootLayout({ children }) {
+export default function Page() {
   return (
-    <html lang="tr">
-      <body className={inter.className}>
-        {children}
-      </body>
-    </html>
+    <div className="min-h-screen p-20">
+      <h1 className="text-4xl font-bold">Hakkımızda</h1>
+      <p className="mt-4 text-lg">Bu sayfa VIERA firma bilgilerinin yer aldığı içeriktir.</p>
+    </div>
   )
 }
