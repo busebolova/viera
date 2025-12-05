@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+User-agent: *
+Disallow: /admin/
+
+# Host
+Host: https://www.alkanyapi.com
+
+# Sitemaps
+Sitemap: https://www.alkanyapi.com/sitemap.xml
