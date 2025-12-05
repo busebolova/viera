@@ -1,14 +1,13 @@
-import HomeClient from "./HomeClient"
+import ClientLayout from "./client-layout"
 
-export const metadata = {
-  title: "Ana Sayfa",
-  description: "Viera & Alkan Yapı ortaklığı",
-}
-
-export default function Page() {
+export default function RootLayout({ children }) {
   return (
-    <main>
-      <HomeClient />
-    </main>
+    <html>
+      <body>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
+      </body>
+    </html>
   )
 }
