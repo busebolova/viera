@@ -8,7 +8,6 @@ import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { MobileBottomNav } from "@/components/mobile-bottom-nav"
 
 const DEFAULT_CONTACT = {
   phone: "0216 391 49 40",
@@ -39,7 +38,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     fetch("/api/content/contact")
       .then((r) => r.json())
-      .then((data) => {
+      .then((response) => {
+        const data = response.data || response
         if (data && data.phone) {
           setContactInfo({
             phone: data.phone || DEFAULT_CONTACT.phone,
@@ -94,11 +94,14 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     window.open(`https://wa.me/${contactInfo.whatsapp}?text=Merhaba, bilgi almak istiyorum.`, "_blank")
   }
 
+  // Anasayfa kontrolü için pathname kullanıyoruz
+  const isHomePage = pathname === "/"
+
   if (!mounted) {
     return (
       <>
-        <div style={{ height: "80px" }} />
-        <main style={{ minHeight: "100vh" }}>{children}</main>
+        {!isHomePage && <div style={{ height: "80px" }} />}
+        <main className="min-h-screen">{children}</main>
       </>
     )
   }
@@ -329,23 +332,17 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         )}
       </header>
 
-      {/* Header Spacer */}
-      <div style={{ height: "80px" }} aria-hidden="true" />
+      {/* Header Spacer - Anasayfa hariç diğer sayfalarda göster */}
+      {pathname !== "/" && <div style={{ height: "80px" }} aria-hidden="true" />}
 
       {/* Main Content */}
-      <main style={{ minHeight: "100vh" }}>{children}</main>
+      <main className="min-h-screen">{children}</main>
 
-      {/* WhatsApp Floating Button - only on desktop */}
-      <div className="hidden md:block">
-        <WhatsAppButton />
-      </div>
-
-      {/* Mobile Bottom Navigation - Only visible on mobile */}
-      <MobileBottomNav />
+      {/* WhatsApp Floating Button - Her zaman görünür */}
+      <WhatsAppButton />
 
       {/* Footer */}
       <footer
-        className="pb-20 md:pb-0"
         style={{
           width: "100%",
           borderTop: "1px solid #27272a",

@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight, Building2, Phone, MapPin, User, Printer } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { getAboutContent, getContactContent } from "@/lib/content"
 
 export const metadata = {
   title: "Hakkımızda - 60+ Yıllık Tecrübe | VIERA Construction - Alkan Yapı",
@@ -24,7 +25,14 @@ export const metadata = {
   },
 }
 
-export default function AboutPage() {
+export const dynamic = "force-dynamic"
+
+export default async function AboutPage() {
+  const [about, contact] = await Promise.all([
+    getAboutContent(),
+    getContactContent(),
+  ])
+
   return (
     <div className="min-h-screen pb-16 md:pb-0">
       {/* Hero Section */}
@@ -40,7 +48,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 z-20 flex items-center">
           <div className="container px-4 md:px-6 max-w-6xl mx-auto">
             <div className="max-w-3xl">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Hakkımızda</h1>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">{about.title}</h1>
               <p className="text-lg md:text-xl text-white/90">
                 60 yılı aşkın deneyim ve köklü geçmişimizle konut ve iş yeri üretiminde güvenin adresi.
               </p>
@@ -59,14 +67,8 @@ export default function AboutPage() {
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">VIERA Construction - Alkan Yapı</h2>
 
-            {/* Main About Text - text-foreground/80 kullanarak dark mode'da okunabilir */}
             <p className="text-foreground/80 text-lg leading-relaxed">
-              Kurucumuz Servet Alkan'ın temellerini attığı firmamız, 60 yılı aşkın deneyimi ve köklü geçmişinden aldığı
-              güçle konut ve iş yeri üretimine aralıksız devam etmektedir.
-            </p>
-            <p className="text-foreground/70 leading-relaxed">
-              Çağın gereksinimlerine uygun, estetik ve fonksiyonel yapılar inşa etme anlayışımızla, her projede
-              titizlikle çalışıyor, güven ve kaliteyi ön planda tutuyoruz.
+              {about.description}
             </p>
 
             {/* Certification Badge */}
@@ -75,21 +77,15 @@ export default function AboutPage() {
               <p className="text-white/80">Firmamız D sınıfı Müteahhitlik Belgesine sahiptir.</p>
             </div>
 
-            {/* Vision & Mission - text-foreground kullanarak dark mode uyumlu */}
+            {/* Vision & Mission */}
             <div className="space-y-4 mt-6">
               <div className="border-l-4 border-zinc-800 dark:border-zinc-200 pl-4 py-2">
                 <h3 className="text-xl font-bold text-foreground">Vizyonumuz</h3>
-                <p className="text-foreground/70">
-                  60 yılı aşkın tecrübemizle, çağın gereksinimlerine uygun estetik ve fonksiyonel yapılar inşa ederek
-                  sektörde öncü olmaya devam etmek.
-                </p>
+                <p className="text-foreground/70">{about.vision}</p>
               </div>
               <div className="border-l-4 border-zinc-800 dark:border-zinc-200 pl-4 py-2">
                 <h3 className="text-xl font-bold text-foreground">Misyonumuz</h3>
-                <p className="text-foreground/70">
-                  Her projede titizlikle çalışarak, güven ve kaliteyi ön planda tutmak ve müşterilerimize en yüksek
-                  standartlarda hizmet sunmak.
-                </p>
+                <p className="text-foreground/70">{about.mission}</p>
               </div>
             </div>
           </div>
@@ -107,7 +103,7 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* Contact Information Card - dark mode uyumlu renkler */}
+            {/* Contact Information Card */}
             <div className="bg-muted rounded-xl p-6">
               <h3 className="text-xl font-bold mb-5 text-foreground">Firma Bilgileri</h3>
               <div className="space-y-4">
@@ -117,7 +113,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-sm text-foreground/60">Yetkili</p>
-                    <p className="font-medium text-foreground">Erdem Alkan</p>
+                    <p className="font-medium text-foreground">{contact.authorized}</p>
                   </div>
                 </div>
 
@@ -127,9 +123,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-sm text-foreground/60">Adres</p>
-                    <p className="font-medium text-foreground">
-                      Altunizade Mah. Ord. Prof Fahrettin Kerim Gökay Cad. No7/8 Üsküdar- İstanbul
-                    </p>
+                    <p className="font-medium text-foreground">{contact.address}</p>
                   </div>
                 </div>
 
@@ -139,8 +133,8 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-sm text-foreground/60">İletişim</p>
-                    <p className="font-medium text-foreground">Tel: 0216 391 49 40</p>
-                    <p className="font-medium text-foreground">Cep: 0533 479 83 87</p>
+                    <p className="font-medium text-foreground">Tel: {contact.phone}</p>
+                    <p className="font-medium text-foreground">Cep: {contact.mobile}</p>
                   </div>
                 </div>
 
@@ -150,7 +144,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-sm text-foreground/60">Fax</p>
-                    <p className="font-medium text-foreground">0216 310 90 74</p>
+                    <p className="font-medium text-foreground">{contact.fax}</p>
                   </div>
                 </div>
               </div>
@@ -160,7 +154,7 @@ export default function AboutPage() {
             <div className="bg-zinc-900 text-white rounded-xl p-6">
               <h3 className="text-xl font-bold mb-3 text-white">60+ Yıllık Tecrübe</h3>
               <p className="text-white/90 mb-4">
-                Servet Alkan'ın temellerini attığı firmamız, köklü geçmişinden aldığı güçle hizmet vermektedir.
+                {about.founder?.bio || "Servet Alkan'ın temellerini attığı firmamız, köklü geçmişinden aldığı güçle hizmet vermektedir."}
               </p>
               <Button
                 variant="outline"

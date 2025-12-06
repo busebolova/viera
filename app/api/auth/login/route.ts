@@ -1,15 +1,26 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
+import { getConfigContent } from "@/lib/content"
 
 export async function POST(req: Request) {
   try {
     const { password } = await req.json()
 
-    if (!process.env.ADMIN_PASSWORD) {
-      return NextResponse.json({ error: "ADMIN_PASSWORD tanımlı değil" }, { status: 500 })
+    // Get password from environment variable or config.json
+    let adminPassword = process.env.ADMIN_PASSWORD
+
+    // If no env variable, try config.json
+    if (!adminPassword) {
+      const config = await getConfigContent()
+      adminPassword = config?.password
     }
 
-    if (password !== process.env.ADMIN_PASSWORD) {
+    // Default fallback password
+    if (!adminPassword) {
+      adminPassword = "admin123"
+    }
+
+    if (password !== adminPassword) {
       return NextResponse.json({ error: "Şifre hatalı" }, { status: 401 })
     }
 

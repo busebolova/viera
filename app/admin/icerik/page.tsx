@@ -16,9 +16,15 @@ import {
   Trash2,
   ChevronDown,
   ChevronUp,
+  GripVertical,
+  Settings,
+  Link as LinkIcon,
+  Upload,
+  X,
 } from "lucide-react"
+import { ImageUploader, MultiImageUploader } from "@/components/image-uploader"
 
-type Slug = "home" | "about" | "contact" | "services" | "projects"
+type Slug = "home" | "about" | "contact" | "services" | "projects" | "settings"
 
 interface Project {
   id: string
@@ -31,6 +37,7 @@ interface Project {
   location?: string
   area?: string
   image: string
+  images?: string[]
   features?: string[]
 }
 
@@ -43,8 +50,9 @@ interface ProjectsData {
 interface FieldConfig {
   key: string
   label: string
-  type: "text" | "textarea" | "number" | "image"
+  type: "text" | "textarea" | "number" | "image" | "url"
   placeholder?: string
+  description?: string
 }
 
 interface SectionConfig {
@@ -62,7 +70,7 @@ const SECTIONS: SectionConfig[] = [
     icon: Home,
     color: "#3b82f6",
     fields: [
-      { key: "video.url", label: "Video URL", type: "text", placeholder: "https://cdn.pixabay.com/video/..." },
+      { key: "video.url", label: "Video URL", type: "url", placeholder: "https://cdn.pixabay.com/video/..." },
       { key: "video.title", label: "Video Başlık", type: "text", placeholder: "ALKAN YAPI" },
       { key: "video.subtitle", label: "Video Alt Başlık", type: "text", placeholder: "& VIERA" },
       { key: "experience.title", label: "Tecrübe Başlık", type: "text", placeholder: "60+ Yıllık Tecrübe" },
@@ -70,6 +78,10 @@ const SECTIONS: SectionConfig[] = [
       { key: "about.badge", label: "Hakkımızda Badge", type: "text", placeholder: "Hakkımızda" },
       { key: "about.title", label: "Hakkımızda Başlık", type: "text", placeholder: "Firma Geçmişimiz" },
       { key: "about.description", label: "Hakkımızda Açıklama", type: "textarea", placeholder: "Firma açıklaması" },
+      { key: "about.certification.title", label: "Sertifika Başlık", type: "text", placeholder: "Müteahhitlik Belgemiz" },
+      { key: "about.certification.description", label: "Sertifika Açıklama", type: "text", placeholder: "D sınıfı..." },
+      { key: "about.projects.title", label: "Projeler Başlık", type: "text", placeholder: "Projelerimiz" },
+      { key: "about.projects.description", label: "Projeler Açıklama", type: "text", placeholder: "100'den fazla proje..." },
       { key: "about.image", label: "Hakkımızda Görsel", type: "image", placeholder: "/project-1.png" },
     ],
   },
@@ -90,38 +102,38 @@ const SECTIONS: SectionConfig[] = [
     ],
   },
   {
+    slug: "contact",
+    label: "İletişim",
+    icon: Phone,
+    color: "#ef4444",
+    fields: [
+      { key: "pageTitle", label: "Sayfa Başlığı", type: "text", placeholder: "İletişim" },
+      { key: "pageDescription", label: "Sayfa Açıklaması", type: "textarea", placeholder: "Bize ulaşın" },
+      { key: "heroImage", label: "Sayfa Görseli", type: "image", placeholder: "/project-1.png" },
+      { key: "authorized", label: "Yetkili Kişi", type: "text", placeholder: "Erdem Alkan", description: "Header, footer ve tüm sayfalarda görünür" },
+      { key: "phone", label: "Telefon", type: "text", placeholder: "0216 391 49 40", description: "Tüm site genelinde kullanılır" },
+      { key: "mobile", label: "Cep Telefonu", type: "text", placeholder: "0533 479 83 87" },
+      { key: "fax", label: "Fax", type: "text", placeholder: "0216 310 90 74" },
+      { key: "email", label: "E-posta", type: "text", placeholder: "info@viera.com.tr" },
+      { key: "address", label: "Adres", type: "textarea", placeholder: "Firma adresi", description: "Footer ve iletişim sayfasında görünür" },
+      { key: "hours", label: "Çalışma Saatleri", type: "text", placeholder: "Pazartesi - Cuma: 09:00 - 18:00" },
+      { key: "whatsapp", label: "WhatsApp Numarası", type: "text", placeholder: "905334798387", description: "Başında 90 olmalı, boşluk olmadan" },
+    ],
+  },
+  {
     slug: "services",
     label: "Hizmetlerimiz",
     icon: Wrench,
     color: "#f59e0b",
     fields: [
-      { key: "pageTitle", label: "Sayfa Başlığı", type: "text", placeholder: "Hizmetlerimiz" },
-      { key: "pageDescription", label: "Sayfa Açıklaması", type: "textarea", placeholder: "Hizmetler hakkında" },
-      { key: "heroImage", label: "Hero Görseli", type: "image", placeholder: "/project-1.png" },
-      { key: "service1.title", label: "Hizmet 1 - Başlık", type: "text", placeholder: "Konut Projeleri" },
-      {
-        key: "service1.description",
-        label: "Hizmet 1 - Açıklama",
-        type: "textarea",
-        placeholder: "Konut projeleri açıklaması",
-      },
-      { key: "service1.image", label: "Hizmet 1 - Görsel", type: "image", placeholder: "/project-1.png" },
-      { key: "service2.title", label: "Hizmet 2 - Başlık", type: "text", placeholder: "Ticari Projeler" },
-      {
-        key: "service2.description",
-        label: "Hizmet 2 - Açıklama",
-        type: "textarea",
-        placeholder: "Ticari projeler açıklaması",
-      },
-      { key: "service2.image", label: "Hizmet 2 - Görsel", type: "image", placeholder: "/project-2.png" },
-      { key: "service3.title", label: "Hizmet 3 - Başlık", type: "text", placeholder: "Karma Projeler" },
-      {
-        key: "service3.description",
-        label: "Hizmet 3 - Açıklama",
-        type: "textarea",
-        placeholder: "Karma projeler açıklaması",
-      },
-      { key: "service3.image", label: "Hizmet 3 - Görsel", type: "image", placeholder: "/project-3.png" },
+      { key: "hero.title", label: "Hero Başlık", type: "text", placeholder: "Hizmetlerimiz" },
+      { key: "hero.subtitle", label: "Hero Alt Başlık", type: "textarea", placeholder: "60+ yıllık tecrübemizle..." },
+      { key: "hero.image", label: "Hero Görseli", type: "image", placeholder: "/project-1.png" },
+      { key: "intro.badge", label: "Intro Badge", type: "text", placeholder: "Uzmanlık Alanlarımız" },
+      { key: "intro.title", label: "Intro Başlık", type: "text", placeholder: "Sunduğumuz Hizmetler" },
+      { key: "intro.description", label: "Intro Açıklama", type: "textarea", placeholder: "Hizmetler hakkında" },
+      { key: "cta.title", label: "CTA Başlık", type: "text", placeholder: "Hayalinizdeki Projeyi..." },
+      { key: "cta.description", label: "CTA Açıklama", type: "textarea", placeholder: "60+ yıllık tecrübemiz..." },
     ],
   },
   {
@@ -131,27 +143,9 @@ const SECTIONS: SectionConfig[] = [
     color: "#8b5cf6",
     fields: [],
   },
-  {
-    slug: "contact",
-    label: "İletişim",
-    icon: Phone,
-    color: "#ef4444",
-    fields: [
-      { key: "pageTitle", label: "Sayfa Başlığı", type: "text", placeholder: "İletişim" },
-      { key: "pageDescription", label: "Sayfa Açıklaması", type: "textarea", placeholder: "Bize ulaşın" },
-      { key: "heroImage", label: "Sayfa Görseli", type: "image", placeholder: "/project-1.png" },
-      { key: "phone", label: "Telefon", type: "text", placeholder: "0216 391 49 40" },
-      { key: "mobile", label: "Cep Telefonu", type: "text", placeholder: "0533 479 83 87" },
-      { key: "fax", label: "Fax", type: "text", placeholder: "0216 310 90 74" },
-      { key: "email", label: "E-posta", type: "text", placeholder: "info@viera.com.tr" },
-      { key: "address", label: "Adres", type: "textarea", placeholder: "Firma adresi" },
-      { key: "authorized", label: "Yetkili Kişi", type: "text", placeholder: "Erdem Alkan" },
-      { key: "whatsapp", label: "WhatsApp Numarası", type: "text", placeholder: "905334798387" },
-    ],
-  },
 ]
 
-// Nested değerleri almak için yardımcı fonksiyon
+// Helper functions
 function getNestedValue(obj: Record<string, unknown>, path: string): string {
   const keys = path.split(".")
   let value: unknown = obj
@@ -165,7 +159,6 @@ function getNestedValue(obj: Record<string, unknown>, path: string): string {
   return typeof value === "string" ? value : ""
 }
 
-// Nested değerleri set etmek için yardımcı fonksiyon
 function setNestedValue(obj: Record<string, unknown>, path: string, value: string): Record<string, unknown> {
   const keys = path.split(".")
   const result = { ...obj }
@@ -183,6 +176,268 @@ function setNestedValue(obj: Record<string, unknown>, path: string, value: strin
 
   current[keys[keys.length - 1]] = value
   return result
+}
+
+// Project Editor Component
+function ProjectEditor({
+  project,
+  category,
+  index,
+  isExpanded,
+  onToggle,
+  onChange,
+  onDelete,
+}: {
+  project: Project
+  category: keyof ProjectsData
+  index: number
+  isExpanded: boolean
+  onToggle: () => void
+  onChange: (field: string, value: string | string[]) => void
+  onDelete: () => void
+}) {
+  const [features, setFeatures] = useState<string[]>(project.features || [])
+  const [newFeature, setNewFeature] = useState("")
+
+  const handleAddFeature = () => {
+    if (newFeature.trim()) {
+      const updated = [...features, newFeature.trim()]
+      setFeatures(updated)
+      onChange("features", updated)
+      setNewFeature("")
+    }
+  }
+
+  const handleRemoveFeature = (idx: number) => {
+    const updated = features.filter((_, i) => i !== idx)
+    setFeatures(updated)
+    onChange("features", updated)
+  }
+
+  const categoryColors = {
+    completed: "#10b981",
+    ongoing: "#3b82f6",
+    upcoming: "#f59e0b",
+  }
+
+  return (
+    <div className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden">
+      {/* Header */}
+      <div
+        className="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-800/50 transition-colors"
+        onClick={onToggle}
+      >
+        <div className="flex items-center gap-4">
+          <GripVertical className="w-5 h-5 text-zinc-600" />
+          {project.image && (
+            <div className="w-16 h-12 rounded overflow-hidden bg-zinc-800 flex-shrink-0">
+              <Image
+                src={project.image || "/placeholder.svg"}
+                alt={project.title}
+                width={64}
+                height={48}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          <div>
+            <h4 className="font-medium text-white">{project.title || "Yeni Proje"}</h4>
+            <p className="text-sm text-zinc-400">
+              {project.year} • {project.details || "Detay yok"}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="px-2 py-1 rounded text-xs font-medium"
+            style={{ backgroundColor: `${categoryColors[category]}20`, color: categoryColors[category] }}
+          >
+            {category === "completed" ? "Tamamlandı" : category === "ongoing" ? "Devam Ediyor" : "Başlayacak"}
+          </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete()
+            }}
+            className="p-2 rounded-lg text-red-400 hover:bg-red-500/20 transition-colors"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+          {isExpanded ? (
+            <ChevronUp className="w-5 h-5 text-zinc-400" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-zinc-400" />
+          )}
+        </div>
+      </div>
+
+      {/* Expanded Content */}
+      {isExpanded && (
+        <div className="p-4 pt-0 border-t border-zinc-800 space-y-6">
+          {/* Basic Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Proje ID (URL için)</label>
+              <input
+                type="text"
+                value={project.id}
+                onChange={(e) => onChange("id", e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="proje-adi"
+              />
+              <p className="text-xs text-zinc-500 mt-1">URL: /projeler/{project.id || "proje-adi"}</p>
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Proje Adı</label>
+              <input
+                type="text"
+                value={project.title}
+                onChange={(e) => onChange("title", e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Yıl</label>
+              <input
+                type="text"
+                value={project.year}
+                onChange={(e) => onChange("year", e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="2024"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Detaylar (ör: 56 Daire)</label>
+              <input
+                type="text"
+                value={project.details}
+                onChange={(e) => onChange("details", e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Konum</label>
+              <input
+                type="text"
+                value={project.location || ""}
+                onChange={(e) => onChange("location", e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Üsküdar, İstanbul"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Alan (m²)</label>
+              <input
+                type="text"
+                value={project.area || ""}
+                onChange={(e) => onChange("area", e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="5,000 m²"
+              />
+            </div>
+          </div>
+
+          {/* Status */}
+          <div>
+            <label className="block text-sm text-zinc-400 mb-1">Durum Açıklaması</label>
+            <input
+              type="text"
+              value={project.status || ""}
+              onChange={(e) => onChange("status", e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Eylül 2024 teslim edilmiştir"
+            />
+          </div>
+
+          {/* Descriptions */}
+          <div>
+            <label className="block text-sm text-zinc-400 mb-1">Kısa Açıklama</label>
+            <textarea
+              value={project.description}
+              onChange={(e) => onChange("description", e.target.value)}
+              rows={2}
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Proje kısa açıklaması..."
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-zinc-400 mb-1">Detaylı Açıklama</label>
+            <textarea
+              value={project.fullDescription || ""}
+              onChange={(e) => onChange("fullDescription", e.target.value)}
+              rows={4}
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Proje hakkında detaylı bilgi..."
+            />
+          </div>
+
+          {/* Main Image */}
+          <div>
+            <ImageUploader
+              label="Ana Görsel"
+              value={project.image}
+              onChange={(url) => onChange("image", url)}
+              placeholder="/project-1.png veya https://..."
+            />
+          </div>
+
+          {/* Gallery Images */}
+          <div>
+            <MultiImageUploader
+              label="Galeri Görselleri"
+              values={project.images || []}
+              onChange={(urls) => onChange("images", urls)}
+              maxImages={10}
+            />
+          </div>
+
+          {/* Features */}
+          <div>
+            <label className="block text-sm text-zinc-400 mb-2">Proje Özellikleri</label>
+            <div className="space-y-2">
+              {features.map((feature, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={feature}
+                    onChange={(e) => {
+                      const updated = [...features]
+                      updated[idx] = e.target.value
+                      setFeatures(updated)
+                      onChange("features", updated)
+                    }}
+                    className="flex-1 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
+                  />
+                  <button
+                    onClick={() => handleRemoveFeature(idx)}
+                    className="p-2 rounded-lg text-red-400 hover:bg-red-500/20"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newFeature}
+                  onChange={(e) => setNewFeature(e.target.value)}
+                  placeholder="Yeni özellik ekle..."
+                  className="flex-1 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
+                  onKeyDown={(e) => e.key === "Enter" && handleAddFeature()}
+                />
+                <button
+                  onClick={handleAddFeature}
+                  className="px-4 py-2 rounded-lg bg-zinc-700 text-white text-sm hover:bg-zinc-600"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 function AdminContentInner() {
@@ -238,7 +493,7 @@ function AdminContentInner() {
     setFormData((prev) => setNestedValue(prev as Record<string, unknown>, key, value))
   }
 
-  const handleProjectChange = (category: keyof ProjectsData, index: number, field: string, value: string) => {
+  const handleProjectChange = (category: keyof ProjectsData, index: number, field: string, value: string | string[]) => {
     setProjectsData((prev) => {
       const newData = { ...prev }
       const projects = [...newData[category]]
@@ -250,18 +505,21 @@ function AdminContentInner() {
 
   const handleAddProject = (category: keyof ProjectsData) => {
     const newProject: Project = {
-      id: `new-project-${Date.now()}`,
+      id: `yeni-proje-${Date.now()}`,
       title: "Yeni Proje",
       description: "Proje açıklaması",
       details: "Detaylar",
       year: new Date().getFullYear().toString(),
       image: "/project-1.png",
+      images: [],
       features: [],
     }
     setProjectsData((prev) => ({
       ...prev,
       [category]: [...prev[category], newProject],
     }))
+    // Auto-expand new project
+    setExpandedProjects((prev) => new Set(prev).add(newProject.id))
   }
 
   const handleDeleteProject = (category: keyof ProjectsData, index: number) => {
@@ -304,7 +562,8 @@ function AdminContentInner() {
 
       if (!res.ok) throw new Error()
 
-      setMessage("Kaydedildi! GitHub'a yüklendi.")
+      setMessage("✓ Kaydedildi!")
+      setTimeout(() => setMessage(null), 3000)
     } catch {
       setError("Kaydederken hata oluştu.")
     } finally {
@@ -320,200 +579,115 @@ function AdminContentInner() {
 
   const currentSection = SECTIONS.find((s) => s.slug === slug)
 
-  const renderProjectEditor = () => {
-    const categories: { key: keyof ProjectsData; label: string; color: string }[] = [
-      { key: "completed", label: "Tamamlanan Projeler", color: "#10b981" },
-      { key: "ongoing", label: "Devam Eden Projeler", color: "#3b82f6" },
-      { key: "upcoming", label: "Yeni Başlayacak Projeler", color: "#f59e0b" },
+  // Projects Editor
+  const renderProjectsEditor = () => {
+    const categories: { key: keyof ProjectsData; label: string; color: string; description: string }[] = [
+      { key: "completed", label: "Tamamlanan Projeler", color: "#10b981", description: "Başarıyla teslim edilen projeler" },
+      { key: "ongoing", label: "Devam Eden Projeler", color: "#3b82f6", description: "Şu anda üzerinde çalışılan projeler" },
+      { key: "upcoming", label: "Yeni Başlayacak Projeler", color: "#f59e0b", description: "Hazırlık aşamasındaki projeler" },
     ]
 
     return (
       <div className="space-y-8">
-        {categories.map(({ key, label, color }) => {
+        {categories.map(({ key, label, color, description }) => {
           const projects = projectsData?.[key] || []
 
           return (
             <div key={key} className="bg-zinc-900/50 rounded-xl p-6 border border-zinc-800">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold" style={{ color }}>
-                  {label}
-                </h3>
+                <div>
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
+                    {label}
+                    <span className="text-sm font-normal text-zinc-500">({projects.length})</span>
+                  </h3>
+                  <p className="text-sm text-zinc-500">{description}</p>
+                </div>
                 <button
                   onClick={() => handleAddProject(key)}
-                  className="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-sm border border-zinc-700 hover:bg-zinc-700 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 rounded-lg text-white text-sm font-medium flex items-center gap-2 transition-colors"
+                  style={{ backgroundColor: color }}
                 >
                   <Plus className="w-4 h-4" />
                   Proje Ekle
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {projects.map((project, index) => (
-                  <div key={project.id} className="bg-zinc-900 rounded-lg border border-zinc-800 overflow-hidden">
-                    <div
-                      className="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-800/50"
-                      onClick={() => toggleProjectExpand(project.id)}
-                    >
-                      <div className="flex items-center gap-4">
-                        {project.image && (
-                          <div className="w-16 h-12 rounded overflow-hidden bg-zinc-800 flex-shrink-0">
-                            <Image
-                              src={project.image || "/placeholder.svg"}
-                              alt={project.title}
-                              width={64}
-                              height={48}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div>
-                          <h4 className="font-medium">{project.title}</h4>
-                          <p className="text-sm text-zinc-400">
-                            {project.year} • {project.details}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleDeleteProject(key, index)
-                          }}
-                          className="p-2 rounded-lg text-red-400 hover:bg-red-500/20 transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                        {expandedProjects.has(project.id) ? (
-                          <ChevronUp className="w-5 h-5 text-zinc-400" />
-                        ) : (
-                          <ChevronDown className="w-5 h-5 text-zinc-400" />
-                        )}
-                      </div>
-                    </div>
-
-                    {expandedProjects.has(project.id) && (
-                      <div className="p-4 pt-0 border-t border-zinc-800 space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm text-zinc-400 mb-1">Proje ID (URL için)</label>
-                            <input
-                              type="text"
-                              value={project.id}
-                              onChange={(e) => handleProjectChange(key, index, "id", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-zinc-400 mb-1">Proje Adı</label>
-                            <input
-                              type="text"
-                              value={project.title}
-                              onChange={(e) => handleProjectChange(key, index, "title", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-zinc-400 mb-1">Yıl</label>
-                            <input
-                              type="text"
-                              value={project.year}
-                              onChange={(e) => handleProjectChange(key, index, "year", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-zinc-400 mb-1">Detaylar (ör: 56 Daire)</label>
-                            <input
-                              type="text"
-                              value={project.details}
-                              onChange={(e) => handleProjectChange(key, index, "details", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-zinc-400 mb-1">Konum</label>
-                            <input
-                              type="text"
-                              value={project.location || ""}
-                              onChange={(e) => handleProjectChange(key, index, "location", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                              placeholder="Üsküdar, İstanbul"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm text-zinc-400 mb-1">Alan (m²)</label>
-                            <input
-                              type="text"
-                              value={project.area || ""}
-                              onChange={(e) => handleProjectChange(key, index, "area", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                              placeholder="5,000 m²"
-                            />
-                          </div>
-                          <div className="md:col-span-2">
-                            <label className="block text-sm text-zinc-400 mb-1">Durum</label>
-                            <input
-                              type="text"
-                              value={project.status || ""}
-                              onChange={(e) => handleProjectChange(key, index, "status", e.target.value)}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                              placeholder="Eylül 2024 teslim edilmiştir"
-                            />
-                          </div>
-                          <div className="md:col-span-2">
-                            <label className="block text-sm text-zinc-400 mb-1">Kısa Açıklama</label>
-                            <textarea
-                              value={project.description}
-                              onChange={(e) => handleProjectChange(key, index, "description", e.target.value)}
-                              rows={2}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm resize-none"
-                            />
-                          </div>
-                          <div className="md:col-span-2">
-                            <label className="block text-sm text-zinc-400 mb-1">Detaylı Açıklama</label>
-                            <textarea
-                              value={project.fullDescription || ""}
-                              onChange={(e) => handleProjectChange(key, index, "fullDescription", e.target.value)}
-                              rows={3}
-                              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm resize-none"
-                            />
-                          </div>
-                          <div className="md:col-span-2">
-                            <label className="block text-sm text-zinc-400 mb-1">Görsel URL</label>
-                            <div className="flex gap-3">
-                              <input
-                                type="text"
-                                value={project.image}
-                                onChange={(e) => handleProjectChange(key, index, "image", e.target.value)}
-                                className="flex-1 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-sm"
-                                placeholder="/project-1.png"
-                              />
-                              {project.image && (
-                                <div className="w-20 h-12 rounded overflow-hidden bg-zinc-800 flex-shrink-0">
-                                  <Image
-                                    src={project.image || "/placeholder.svg"}
-                                    alt="Preview"
-                                    width={80}
-                                    height={48}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <ProjectEditor
+                    key={project.id}
+                    project={project}
+                    category={key}
+                    index={index}
+                    isExpanded={expandedProjects.has(project.id)}
+                    onToggle={() => toggleProjectExpand(project.id)}
+                    onChange={(field, value) => handleProjectChange(key, index, field, value)}
+                    onDelete={() => handleDeleteProject(key, index)}
+                  />
                 ))}
 
                 {projects.length === 0 && (
-                  <p className="text-zinc-500 text-sm text-center py-4">Bu kategoride proje bulunmuyor.</p>
+                  <div className="text-center py-8 text-zinc-500">
+                    <FolderOpen className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <p>Bu kategoride proje bulunmuyor</p>
+                    <button
+                      onClick={() => handleAddProject(key)}
+                      className="mt-2 text-sm underline hover:no-underline"
+                      style={{ color }}
+                    >
+                      İlk projeyi ekle
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
           )
         })}
+      </div>
+    )
+  }
+
+  // Form Fields Renderer
+  const renderFormFields = () => {
+    if (!currentSection) return null
+
+    return (
+      <div className="space-y-6">
+        {currentSection.fields.map((field) => (
+          <div key={field.key}>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">
+              {field.label}
+              {field.description && (
+                <span className="text-xs text-zinc-500 font-normal ml-2">({field.description})</span>
+              )}
+            </label>
+            
+            {field.type === "image" ? (
+              <ImageUploader
+                value={getNestedValue(formData as Record<string, unknown>, field.key)}
+                onChange={(url) => handleFieldChange(field.key, url)}
+                placeholder={field.placeholder}
+              />
+            ) : field.type === "textarea" ? (
+              <textarea
+                value={getNestedValue(formData as Record<string, unknown>, field.key)}
+                onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                placeholder={field.placeholder}
+                rows={4}
+                className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              />
+            ) : (
+              <input
+                type={field.type === "url" ? "url" : "text"}
+                value={getNestedValue(formData as Record<string, unknown>, field.key)}
+                onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                placeholder={field.placeholder}
+                className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            )}
+          </div>
+        ))}
       </div>
     )
   }
@@ -535,7 +709,12 @@ function AdminContentInner() {
               )}
               {currentSection?.label || "İçerik"} Yönetimi
             </h1>
-            <p className="text-zinc-400 text-sm mt-1">Alanları düzenleyin ve GitHub&apos;a kaydedin.</p>
+            <p className="text-zinc-400 text-sm mt-1">
+              {slug === "contact" 
+                ? "Bu bilgiler site genelinde header, footer ve tüm sayfalarda kullanılır"
+                : "Alanları düzenleyin ve kaydedin"
+              }
+            </p>
           </div>
 
           <div className="flex gap-2">
@@ -557,7 +736,7 @@ function AdminContentInner() {
           </div>
         </div>
 
-        {/* Section tabs */}
+        {/* Section Tabs */}
         <div className="flex gap-2 flex-wrap border-b border-zinc-800 pb-4 mb-8">
           {SECTIONS.map((section) => {
             const Icon = section.icon
@@ -580,64 +759,15 @@ function AdminContentInner() {
           })}
         </div>
 
-        {/* Form Fields */}
+        {/* Content */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <RefreshCw className="w-8 h-8 animate-spin text-zinc-500" />
           </div>
         ) : slug === "projects" ? (
-          renderProjectEditor()
+          renderProjectsEditor()
         ) : (
-          <div className="grid gap-6 md:grid-cols-2">
-            {currentSection?.fields.map((field) => (
-              <div
-                key={field.key}
-                className={field.type === "textarea" || field.type === "image" ? "md:col-span-2" : ""}
-              >
-                <label className="block text-sm font-medium text-zinc-300 mb-2">{field.label}</label>
-                {field.type === "textarea" ? (
-                  <textarea
-                    value={getNestedValue(formData as Record<string, unknown>, field.key)}
-                    onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                    placeholder={field.placeholder}
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  />
-                ) : field.type === "image" ? (
-                  <div className="space-y-3">
-                    <input
-                      type="text"
-                      value={getNestedValue(formData as Record<string, unknown>, field.key)}
-                      onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                      placeholder={field.placeholder}
-                      className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    {getNestedValue(formData as Record<string, unknown>, field.key) && (
-                      <div className="relative w-full max-w-md h-48 rounded-lg overflow-hidden bg-zinc-800">
-                        <Image
-                          src={getNestedValue(formData as Record<string, unknown>, field.key) || "/placeholder.svg"}
-                          alt="Preview"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                    <p className="text-xs text-zinc-500">
-                      Görsel yolu girin (ör: /project-1.png) veya tam URL kullanın
-                    </p>
-                  </div>
-                ) : (
-                  <input
-                    type={field.type}
-                    value={getNestedValue(formData as Record<string, unknown>, field.key)}
-                    onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                    placeholder={field.placeholder}
-                    className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+          renderFormFields()
         )}
 
         {/* Footer */}
@@ -653,7 +783,7 @@ function AdminContentInner() {
             style={{ backgroundColor: currentSection?.color || "#3b82f6" }}
           >
             <Save className="w-4 h-4" />
-            {saving ? "Kaydediliyor..." : "GitHub'a Kaydet"}
+            {saving ? "Kaydediliyor..." : "Kaydet"}
           </button>
         </div>
       </div>

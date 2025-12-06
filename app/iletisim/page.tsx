@@ -1,6 +1,7 @@
 import Image from "next/image"
-import { MapPin, Phone, Mail } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, User } from "lucide-react"
 import { ContactForm } from "@/components/contact-form"
+import { getContactContent } from "@/lib/content"
 
 export const metadata = {
   title: "İletişim - Bize Ulaşın | VIERA - Alkan Yapı & Viera Ortaklığı",
@@ -23,19 +24,31 @@ export const metadata = {
   },
 }
 
-export default function ContactPage() {
+export const dynamic = "force-dynamic"
+
+export default async function ContactPage() {
+  const contact = await getContactContent()
+
   return (
     <div className="min-h-screen pb-16 md:pb-0">
-      {/* Hero Section - Görsel değiştirildi */}
+      {/* Hero Section */}
       <div className="relative w-full h-[40vh] overflow-hidden">
         <div className="absolute inset-0 bg-black/50 z-10" />
-        <Image src="/project-1.png" alt="VIERA İletişim" fill className="object-cover" priority />
+        <Image 
+          src={contact.heroImage || "/project-1.png"} 
+          alt="VIERA İletişim" 
+          fill 
+          className="object-cover" 
+          priority 
+        />
         <div className="absolute inset-0 z-20 flex items-center">
           <div className="container px-4 md:px-6">
             <div className="max-w-3xl">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">İletişim</h1>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                {contact.pageTitle}
+              </h1>
               <p className="text-xl text-white/80">
-                Sorularınız veya projeleriniz için bizimle iletişime geçebilirsiniz.
+                {contact.pageDescription}
               </p>
             </div>
           </div>
@@ -63,12 +76,21 @@ export default function ContactPage() {
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="flex items-center justify-center h-10 w-10 rounded-full bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 mr-4">
+                    <User className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground">Yetkili Kişi</h3>
+                    <p className="text-muted-foreground">{contact.authorized}</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 mr-4">
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">Telefon</h3>
-                    <p className="text-muted-foreground">0216 391 49 40</p>
-                    <p className="text-muted-foreground">0533 479 83 87</p>
+                    <p className="text-muted-foreground">{contact.phone}</p>
+                    <p className="text-muted-foreground">{contact.mobile}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -77,7 +99,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">E-posta</h3>
-                    <p className="text-muted-foreground">info@alkanyapi.com.tr</p>
+                    <p className="text-muted-foreground">{contact.email}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -86,34 +108,20 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">Adres</h3>
-                    <p className="text-muted-foreground">
-                      Altunizade Mah. Ord. Prof Fahrettin Kerim Gökay Cad. No7/8 Üsküdar- İstanbul
-                    </p>
+                    <p className="text-muted-foreground">{contact.address}</p>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5"
-                    >
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
+                {contact.hours && (
+                  <div className="flex items-start">
+                    <div className="flex items-center justify-center h-10 w-10 rounded-full bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200 mr-4">
+                      <Clock className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-foreground">Çalışma Saatleri</h3>
+                      <p className="text-muted-foreground">{contact.hours}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-medium text-foreground">Yetkili Kişi</h3>
-                    <p className="text-muted-foreground">Erdem Alkan</p>
-                  </div>
-                </div>
+                )}
               </div>
               <div className="aspect-video overflow-hidden rounded-xl border shadow-lg">
                 <iframe
@@ -125,7 +133,7 @@ export default function ContactPage() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full h-full"
-                ></iframe>
+                />
               </div>
             </div>
           </div>
